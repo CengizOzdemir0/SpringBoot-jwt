@@ -1,5 +1,9 @@
 package cengiz.controller;
 
+import cengiz.data.entity.Yetki;
+import cengiz.service.KullaniciService;
+import cengiz.service.YetkiService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import cengiz.configuration.redis.RedisService;
 import cengiz.data.dto.KullaniciDto;
@@ -22,6 +26,7 @@ import java.util.List;
 
 @RequestMapping("/auth")
 @RestController
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final JwtService jwtService;
@@ -30,11 +35,9 @@ public class AuthenticationController {
 
     private final RedisService redisService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, RedisService redisService) {
-        this.jwtService = jwtService;
-        this.authenticationService = authenticationService;
-        this.redisService = redisService;
-    }
+    private final YetkiService yetkiService;
+    private final KullaniciService kullaniciService;
+
 
     @PostMapping("/signup")
     public CustomResponse<KullaniciDto> register(@RequestBody KullaniciDto kullaniciDto) {
@@ -44,8 +47,13 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public CustomResponse<LoginResponse> authenticate(@RequestBody LoginKullaniciDto loginKullaniciDto) {
-        KullaniciDto authenticatedUser = authenticationService.authenticate(loginKullaniciDto);
+        KullaniciDto kullaniciByEmail = kullaniciService.getKullaniciByEmail(loginKullaniciDto.getEmail());
+        List<Yetki> allkullaniciYetkiList = yetkiService.findAllkullaniciYetkiList(kullaniciByEmail.getId());;
+        if(allkullaniciYetkiList.isEmpty()) {
+            throw new RuntimeException("Kullaninin Yetki tanimlamasi yoktur !");
+        }
 
+        KullaniciDto authenticatedUser = authenticationService.authenticate(loginKullaniciDto);
         TokenDto tokenDto = jwtService.generateToken(authenticatedUser);
 
         LoginResponse loginResponse = new LoginResponse();
@@ -56,9 +64,11 @@ public class AuthenticationController {
         redisKullaniciDto.setKullaniciDto(authenticatedUser);
         redisKullaniciDto.setSubUuid(tokenDto.getSubUuid());
 
+
         List<KullaniciYetkiG> list = new ArrayList<>();
-        list.add(new KullaniciYetkiG("USER"));
-        list.add(new KullaniciYetkiG("ADMIN"));
+        allkullaniciYetkiList.forEach(yetki -> list.add(new KullaniciYetkiG(yetki.getAdi())));
+        //list.add(new KullaniciYetkiG("USER"));
+        //list.add(new KullaniciYetkiG("ADMIN"));
 
         redisKullaniciDto.setYetkiList(list);
 

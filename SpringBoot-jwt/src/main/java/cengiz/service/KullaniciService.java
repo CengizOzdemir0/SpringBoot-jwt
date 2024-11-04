@@ -48,6 +48,10 @@ public class KullaniciService {
         return kullaniciMapper.toDto(kullanici);
     }
 
+    public KullaniciDto getKullaniciByEmail(String email) {
+       return kullaniciMapper.toDto(kullaniciRepository.findByEmail(email).orElse(null));
+    }
+
 
     public Page<KullaniciDto> getAllKullanici(Pageable pageable) {
         return kullaniciRepository.findAll(pageable).map(kullaniciMapper::toDto);

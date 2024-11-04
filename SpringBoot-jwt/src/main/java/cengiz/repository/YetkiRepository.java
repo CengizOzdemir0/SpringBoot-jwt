@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface YetkiRepository extends JpaRepository<Yetki, Long> {
 
     Optional<Yetki> findByAdi(String ad);
+    Yetki findById(Integer id);
 
 }
