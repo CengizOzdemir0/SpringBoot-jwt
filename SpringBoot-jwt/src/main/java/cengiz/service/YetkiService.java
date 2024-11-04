@@ -4,8 +4,10 @@ package cengiz.service;
 import cengiz.configuration.redis.RedisService;
 import cengiz.data.dto.YetkiDto;
 import cengiz.data.entity.KullaniciRol;
+import cengiz.data.entity.Rol;
 import cengiz.data.entity.Yetki;
 import cengiz.data.mapper.YetkiMapper;
+import cengiz.repository.RolYetkiRepository;
 import cengiz.repository.YetkiRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -22,13 +25,18 @@ public class YetkiService {
     private final YetkiRepository yetkiRepository;
     private final YetkiMapper yetkiMapper;
     private final RedisService redisService;
-    private final KullaniciRolService kullaniciYetkiService;
+    private final KullaniciRolService kullaniciRolService;
+    private final RolYetkiService rolYetkiService;
 
-    public YetkiService(YetkiRepository yetkiRepository, YetkiMapper yetkiMapper, RedisService redisService, @Lazy KullaniciRolService kullaniciYetkiService) {
+
+
+    public YetkiService(YetkiRepository yetkiRepository, YetkiMapper yetkiMapper, RedisService redisService, @Lazy KullaniciRolService kullaniciRolService, RolYetkiService rolYetkiService) {
         this.yetkiRepository = yetkiRepository;
         this.yetkiMapper = yetkiMapper;
         this.redisService = redisService;
-        this.kullaniciYetkiService = kullaniciYetkiService;
+        this.kullaniciRolService = kullaniciRolService;
+        this.rolYetkiService = rolYetkiService;
+
     }
 
 
@@ -51,6 +59,25 @@ public class YetkiService {
 
     public Yetki findByYetki(Integer yetkiId) {
         return yetkiRepository.findById(yetkiId);
+    }
+
+
+    public List<Yetki> findAllYetkiListWFkKullaniciId(Integer fkKullaniciId) {
+        List<KullaniciRol> allKullaniciRol = kullaniciRolService.findAllKullaniciYetkiList(fkKullaniciId);
+
+        List<Integer> rolList = allKullaniciRol.stream()
+                .map(KullaniciRol::getFkRolId)
+                .toList();
+        List<Integer> yetkiIdList = new ArrayList<>();
+        for (Integer rol : rolList) {
+            Integer yetkiId = rolYetkiService.findByFkRolId(rol);
+            if (yetkiId != null) {
+                yetkiIdList.add(yetkiId);
+            }
+        }
+        return yetkiIdList.stream()
+                .map(this::findByYetki)
+                .toList();
     }
 
 

@@ -18,6 +18,10 @@ public class RolYetkiService {
         return rolYetkiMapper.toDto(rolYetkiRepository.save(rolYetkiMapper.toEntity(rolYetkiDto)));
     }
 
+    public Integer findByFkRolId(Integer rolId) {
+        return rolYetkiRepository.findByFkRolId(rolId);
+    }
+
 
 
 }
