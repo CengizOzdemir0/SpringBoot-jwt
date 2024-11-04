@@ -1,6 +1,7 @@
 package cengiz.controller;
 
 import cengiz.data.entity.Yetki;
+import cengiz.service.KullaniciRolService;
 import cengiz.service.KullaniciService;
 import cengiz.service.YetkiService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AuthenticationController {
 
     private final RedisService redisService;
 
-    private final YetkiService yetkiService;
+    private final KullaniciRolService kullaniciRolService;
     private final KullaniciService kullaniciService;
 
 
@@ -48,10 +49,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public CustomResponse<LoginResponse> authenticate(@RequestBody LoginKullaniciDto loginKullaniciDto) {
         KullaniciDto kullaniciByEmail = kullaniciService.getKullaniciByEmail(loginKullaniciDto.getEmail());
-        List<Yetki> allkullaniciYetkiList = yetkiService.findAllkullaniciYetkiList(kullaniciByEmail.getId());;
-        if(allkullaniciYetkiList.isEmpty()) {
-            throw new RuntimeException("Kullaninin Yetki tanimlamasi yoktur !");
-        }
+
+       // if(allkullaniciYetkiList.isEmpty()) {
+       //     throw new RuntimeException("Kullaninin Yetki tanimlamasi yoktur !");
+      //  }
 
         KullaniciDto authenticatedUser = authenticationService.authenticate(loginKullaniciDto);
         TokenDto tokenDto = jwtService.generateToken(authenticatedUser);
@@ -66,9 +67,9 @@ public class AuthenticationController {
 
 
         List<KullaniciYetkiG> list = new ArrayList<>();
-        allkullaniciYetkiList.forEach(yetki -> list.add(new KullaniciYetkiG(yetki.getAdi())));
-        //list.add(new KullaniciYetkiG("USER"));
-        //list.add(new KullaniciYetkiG("ADMIN"));
+       // allkullaniciYetkiList.forEach(yetki -> list.add(new KullaniciYetkiG(yetki.getAdi())));
+        list.add(new KullaniciYetkiG("USER"));
+        list.add(new KullaniciYetkiG("ADMIN"));
 
         redisKullaniciDto.setYetkiList(list);
 

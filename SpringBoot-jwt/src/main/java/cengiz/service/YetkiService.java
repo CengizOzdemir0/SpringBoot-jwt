@@ -3,11 +3,10 @@ package cengiz.service;
 
 import cengiz.configuration.redis.RedisService;
 import cengiz.data.dto.YetkiDto;
-import cengiz.data.entity.KullaniciYetki;
+import cengiz.data.entity.KullaniciRol;
 import cengiz.data.entity.Yetki;
 import cengiz.data.mapper.YetkiMapper;
 import cengiz.repository.YetkiRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,9 @@ public class YetkiService {
     private final YetkiRepository yetkiRepository;
     private final YetkiMapper yetkiMapper;
     private final RedisService redisService;
-    private final KullaniciYetkiService kullaniciYetkiService;
+    private final KullaniciRolService kullaniciYetkiService;
 
-    public YetkiService(YetkiRepository yetkiRepository, YetkiMapper yetkiMapper, RedisService redisService, @Lazy KullaniciYetkiService kullaniciYetkiService) {
+    public YetkiService(YetkiRepository yetkiRepository, YetkiMapper yetkiMapper, RedisService redisService, @Lazy KullaniciRolService kullaniciYetkiService) {
         this.yetkiRepository = yetkiRepository;
         this.yetkiMapper = yetkiMapper;
         this.redisService = redisService;
@@ -54,12 +53,7 @@ public class YetkiService {
         return yetkiRepository.findById(yetkiId);
     }
 
-    public List<Yetki> findAllkullaniciYetkiList(Integer fkKullaniciId) {
-        List<KullaniciYetki> allKullaniciYetkiList = kullaniciYetkiService.findAllKullaniciYetkiList(fkKullaniciId);
-        List<Yetki> yetkiDtos = new ArrayList<>();
-        allKullaniciYetkiList.forEach(item -> yetkiDtos.add(findByYetki(item.getFkYetkiId())));
-        return yetkiDtos;
-    }
+
 
 
 }

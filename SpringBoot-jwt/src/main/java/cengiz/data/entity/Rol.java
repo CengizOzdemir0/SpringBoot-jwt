@@ -6,13 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "yetki", schema = "base")
-public class Yetki implements Serializable {
+@Table(name = "rol", schema = "base")
+public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +24,5 @@ public class Yetki implements Serializable {
     @NotNull
     @Column(name = "aciklama", nullable = false, length = Integer.MAX_VALUE)
     private String aciklama;
-
 
 }
