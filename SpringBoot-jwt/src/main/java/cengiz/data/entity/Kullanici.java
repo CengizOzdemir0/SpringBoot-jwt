@@ -21,7 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "kullanici", schema = "demo")
+@Table(name = "kullanici", schema = "base")
 public class Kullanici implements UserDetails, Serializable {
 
     @Id

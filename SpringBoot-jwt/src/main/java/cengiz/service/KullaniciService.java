@@ -13,6 +13,7 @@ import cengiz.repository.KullaniciRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,11 +29,18 @@ public class KullaniciService {
     private final KullaniciMapper kullaniciMapper;
 
     public KullaniciDto createKullanici(KullaniciDto kullaniciDto) {
+        Optional<Kullanici> byEmail = kullaniciRepository.findByEmail(kullaniciDto.getEmail());
+        if(byEmail.isPresent()) {
+            throw new RuntimeException("Kullanici mevcut");
+
+        }
         kullaniciDto.setUuid(UUID.randomUUID());
         Kullanici kullanici = kullaniciMapper.toEntity(kullaniciDto);
         kullanici = kullaniciRepository.save(kullanici);
         return kullaniciMapper.toDto(kullanici);
     }
+
+
 
 
     @Cacheable(value = "kullanici", key = "#id")

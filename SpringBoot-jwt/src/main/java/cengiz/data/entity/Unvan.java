@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "unvan")
+@Table(name = "unvan", schema = "base")
 public class Unvan {
 
     @Id

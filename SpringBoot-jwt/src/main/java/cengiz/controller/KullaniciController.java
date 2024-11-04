@@ -1,5 +1,6 @@
 package cengiz.controller;
 
+import cengiz.data.dto.KullaniciDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +28,13 @@ public class KullaniciController {
         List<Kullanici> users = kullaniciService.allUsers();
         return new CustomResponse<>("Kullanıcı listesi başarıyla çekildi.","SPR_201",users);
     }
+
+
+    @PostMapping("/save")
+    public CustomResponse<KullaniciDto> save(@RequestBody KullaniciDto kullanici) {
+        KullaniciDto user = kullaniciService.createKullanici(kullanici);
+        return new CustomResponse<>("Kullanıcı listesi başarıyla kaydedildi.","SPR_202",user);
+    }
+
+
 }
