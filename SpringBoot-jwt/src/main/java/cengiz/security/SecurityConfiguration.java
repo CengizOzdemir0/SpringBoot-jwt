@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 // Çünkü JWT kullanıldığında genellikle CSRF korumasına ihtiyaç duyulmaz, zira JWT her istekle gönderilir ve sunucu tarafında stateless (durumsuz) bir yapı kullanılır.
                 .authorizeHttpRequests(authorize -> {
                             authorize.requestMatchers("/auth/**").permitAll(); // Sadece permitAll url ine izin var
-                            authorize.requestMatchers("/kullanici/save").permitAll();
+                            authorize.requestMatchers("/yetki/**").permitAll();
                             authorize.anyRequest().authenticated(); // Diğer url lere izin yok
                         }
                 )

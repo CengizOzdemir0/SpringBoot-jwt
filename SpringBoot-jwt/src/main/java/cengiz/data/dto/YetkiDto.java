@@ -14,6 +14,6 @@ public class YetkiDto implements Serializable {
 
 
     private Integer id;
-    private String ad;
+    private String adi;
     private String aciklama;
 }

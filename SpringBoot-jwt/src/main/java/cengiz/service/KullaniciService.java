@@ -2,6 +2,7 @@ package cengiz.service;
 
 import cengiz.data.dto.KullaniciDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,8 +40,6 @@ public class KullaniciService {
         kullanici = kullaniciRepository.save(kullanici);
         return kullaniciMapper.toDto(kullanici);
     }
-
-
 
 
     @Cacheable(value = "kullanici", key = "#id")

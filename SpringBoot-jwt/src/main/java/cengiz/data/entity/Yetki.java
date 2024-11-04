@@ -17,16 +17,15 @@ public class Yetki implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ColumnDefault("nextval('demo.yetki_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
-    @Column(name = "ad", nullable = false, length = Integer.MAX_VALUE)
-    private String ad;
+    @Column(name = "adi", nullable = false, length = Integer.MAX_VALUE)
+    private String adi;
 
     @NotNull
-    @Column(name = "soyad", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "aciklama", nullable = false, length = Integer.MAX_VALUE)
     private String aciklama;
 
 
