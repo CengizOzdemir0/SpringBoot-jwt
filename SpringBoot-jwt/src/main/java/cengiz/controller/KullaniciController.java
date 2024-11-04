@@ -23,7 +23,7 @@ public class KullaniciController {
     private final KullaniciService kullaniciService;
 
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ISLEM')")
     public CustomResponse<List<Kullanici>> allUsers() {
         List<Kullanici> users = kullaniciService.allUsers();
         return new CustomResponse<>("Kullanıcı listesi başarıyla çekildi.","SPR_201",users);
@@ -31,6 +31,7 @@ public class KullaniciController {
 
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ISLEM')")
     public CustomResponse<KullaniciDto> save(@RequestBody KullaniciDto kullanici) {
         KullaniciDto user = kullaniciService.createKullanici(kullanici);
         return new CustomResponse<>("Kullanıcı listesi başarıyla kaydedildi.","SPR_202",user);

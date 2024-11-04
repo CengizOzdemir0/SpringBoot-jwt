@@ -5,6 +5,7 @@ import cengiz.configuration.redis.RedisService;
 import cengiz.data.dto.YetkiDto;
 import cengiz.data.entity.KullaniciRol;
 import cengiz.data.entity.Rol;
+import cengiz.data.entity.RolYetki;
 import cengiz.data.entity.Yetki;
 import cengiz.data.mapper.YetkiMapper;
 import cengiz.repository.RolYetkiRepository;
@@ -70,14 +71,17 @@ public class YetkiService {
                 .toList();
         List<Integer> yetkiIdList = new ArrayList<>();
         for (Integer rol : rolList) {
-            Integer yetkiId = rolYetkiService.findByFkRolId(rol);
-            if (yetkiId != null) {
-                yetkiIdList.add(yetkiId);
+            List<RolYetki> yetkiList = rolYetkiService.findByFkRolId(rol);
+            if (yetkiList != null) {
+                yetkiList.forEach(yetki -> yetkiIdList.add(yetki.getFkYetkiId()));
             }
         }
-        return yetkiIdList.stream()
-                .map(this::findByYetki)
-                .toList();
+
+        List<Yetki> yetkiList = new ArrayList<>();
+        for (Integer yetkiId : yetkiIdList) {
+            yetkiList.add(findByYetki(yetkiId));
+        }
+         return yetkiList;
     }
 
 

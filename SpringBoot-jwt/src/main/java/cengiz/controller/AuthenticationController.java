@@ -38,6 +38,7 @@ public class AuthenticationController {
 
     private final KullaniciRolService kullaniciRolService;
     private final KullaniciService kullaniciService;
+    private final YetkiService yetkiService;
 
 
     @PostMapping("/signup")
@@ -48,11 +49,12 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public CustomResponse<LoginResponse> authenticate(@RequestBody LoginKullaniciDto loginKullaniciDto) {
+        // TODO mail pass kontrol edilecek
         KullaniciDto kullaniciByEmail = kullaniciService.getKullaniciByEmail(loginKullaniciDto.getEmail());
-
-       // if(allkullaniciYetkiList.isEmpty()) {
-       //     throw new RuntimeException("Kullaninin Yetki tanimlamasi yoktur !");
-      //  }
+        List<Yetki> allYetkiListWFkKullaniciId = yetkiService.findAllYetkiListWFkKullaniciId(kullaniciByEmail.getId());
+         if(allYetkiListWFkKullaniciId.isEmpty()) {
+            throw new RuntimeException("Kullaninin Yetki tanimlamasi yoktur !");
+        }
 
         KullaniciDto authenticatedUser = authenticationService.authenticate(loginKullaniciDto);
         TokenDto tokenDto = jwtService.generateToken(authenticatedUser);
@@ -67,9 +69,9 @@ public class AuthenticationController {
 
 
         List<KullaniciYetkiG> list = new ArrayList<>();
-       // allkullaniciYetkiList.forEach(yetki -> list.add(new KullaniciYetkiG(yetki.getAdi())));
-        list.add(new KullaniciYetkiG("USER"));
-        list.add(new KullaniciYetkiG("ADMIN"));
+        allYetkiListWFkKullaniciId.forEach(yetki -> list.add(new KullaniciYetkiG(yetki.getAdi())));
+        //list.add(new KullaniciYetkiG("USER"));
+        //list.add(new KullaniciYetkiG("ADMIN"));
 
         redisKullaniciDto.setYetkiList(list);
 

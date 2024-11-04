@@ -2,10 +2,13 @@ package cengiz.service;
 
 
 import cengiz.data.dto.RolYetkiDto;
+import cengiz.data.entity.RolYetki;
 import cengiz.data.mapper.RolYetkiMapper;
 import cengiz.repository.RolYetkiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class RolYetkiService {
         return rolYetkiMapper.toDto(rolYetkiRepository.save(rolYetkiMapper.toEntity(rolYetkiDto)));
     }
 
-    public Integer findByFkRolId(Integer rolId) {
+    public List<RolYetki> findByFkRolId(Integer rolId) {
         return rolYetkiRepository.findByFkRolId(rolId);
     }
 
