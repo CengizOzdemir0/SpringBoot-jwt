@@ -3,7 +3,7 @@ package cengiz.controller;
 import org.springframework.web.bind.annotation.*;
 import cengiz.configuration.redis.RedisService;
 import cengiz.data.dto.KullaniciDto;
-import cengiz.data.dto.KullaniciYetki;
+import cengiz.data.dto.KullaniciYetkiG;
 import cengiz.data.dto.LoginKullaniciDto;
 import cengiz.data.dto.LoginResponse;
 import cengiz.data.dto.RedisKullaniciDto;
@@ -56,9 +56,9 @@ public class AuthenticationController {
         redisKullaniciDto.setKullaniciDto(authenticatedUser);
         redisKullaniciDto.setSubUuid(tokenDto.getSubUuid());
 
-        List<KullaniciYetki> list = new ArrayList<>();
-        list.add(new KullaniciYetki("USER"));
-        list.add(new KullaniciYetki("ADMIN"));
+        List<KullaniciYetkiG> list = new ArrayList<>();
+        list.add(new KullaniciYetkiG("USER"));
+        list.add(new KullaniciYetkiG("ADMIN"));
 
         redisKullaniciDto.setYetkiList(list);
 

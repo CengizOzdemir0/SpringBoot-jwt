@@ -8,14 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
  * @date 2024-09-20 15:03
  */
 
-public class KullaniciYetki implements GrantedAuthority {
+public class KullaniciYetkiG implements GrantedAuthority {
 
     private String yetki;
 
-    public KullaniciYetki() {
+    public KullaniciYetkiG() {
     }
 
-    public KullaniciYetki(String yetki) {
+    public KullaniciYetkiG(String yetki) {
         this.yetki = yetki;
     }
 

@@ -19,5 +19,5 @@ public class RedisKullaniciDto implements Serializable {
 
     private String subUuid;
 
-    private List<KullaniciYetki> yetkiList;
+    private List<KullaniciYetkiG> yetkiList;
 }

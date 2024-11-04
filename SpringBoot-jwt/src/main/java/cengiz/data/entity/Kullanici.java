@@ -26,7 +26,7 @@ public class Kullanici implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ColumnDefault("nextval('demo.kullanici_id_seq'")
+    @ColumnDefault("nextval('base.kullanici_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 

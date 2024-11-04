@@ -20,7 +20,7 @@ public class Unvan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ColumnDefault("nextval('demo.personel_unvan_id_seq'")
+    @ColumnDefault("nextval('base.personel_unvan_id_seq'")
     @Column(name = "id", nullable = false)
     private Integer id;
 
