@@ -39,3 +39,18 @@ CREATE TABLE base.unvan (
                             unvan_guncelleyen_personel_id INTEGER,
                             FOREIGN KEY (unvan_guncelleyen_personel_id) REFERENCES base.personel(id) ON DELETE SET NULL
 );
+
+CREATE TABLE base.kullanici_yetki (
+                                      id SERIAL PRIMARY KEY,
+                                      fk_kullanici_id serial NOT NULL,
+                                      fk_yetki_id serial NOT NULL
+
+);
+
+CREATE TABLE base.yetki (
+                            id SERIAL PRIMARY KEY,
+                            adi text NOT NULL,
+                            aciklama text NOT null
+
+
+);
