@@ -11,23 +11,8 @@ CREATE TABLE base.kullanici (
 );
 
 
-CREATE TABLE base.personel (
-                               id SERIAL PRIMARY KEY,
-                               ad TEXT,
-                               soyad TEXT,
-                               yas INTEGER,
-                               fk_unvan_id INTEGER
-);
 
 
-CREATE TABLE base.personel_meslek (
-                                      id SERIAL PRIMARY KEY,
-                                      fk_personel_id INTEGER NOT NULL,
-                                      meslek_kodu VARCHAR(50) NOT NULL,
-                                      meslek_adi VARCHAR(100) NOT NULL,
-                                      meslek_giris_tarihi DATE NOT NULL,
-                                      FOREIGN KEY (fk_personel_id) REFERENCES base.personel(id) ON DELETE CASCADE
-);
 
 
 CREATE TABLE base.unvan (
