@@ -22,8 +22,8 @@ public class KullaniciController {
 
     private final KullaniciService kullaniciService;
 
-    @GetMapping("/")
-    @PreAuthorize("hasAuthority('ISLEM')")
+    @GetMapping()
+    @PreAuthorize("hasAuthority('SORGU')")
     public CustomResponse<List<Kullanici>> allUsers() {
         List<Kullanici> users = kullaniciService.allUsers();
         return new CustomResponse<>("Kullanıcı listesi başarıyla çekildi.","SPR_201",users);

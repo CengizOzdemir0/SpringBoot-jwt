@@ -1,8 +1,6 @@
 package cengiz.controller;
 
 import cengiz.data.dto.RolDto;
-import cengiz.data.dto.RolYetkiDto;
-import cengiz.data.entity.Rol;
 import cengiz.exceptions.CustomResponse;
 import cengiz.service.RolService;
 import lombok.RequiredArgsConstructor;

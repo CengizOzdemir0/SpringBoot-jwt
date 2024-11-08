@@ -26,4 +26,3 @@ public class CustomResponse<T> {
     }
 
 }
-
